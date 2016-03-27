@@ -64,11 +64,8 @@ public class PacManControls : MonoBehaviour {
 			case AvailablePacManStates.Idle:
 				break;
 			case AvailablePacManStates.Dead:
-
 				break;
 		}
-		float step = speed * Time.deltaTime;
-		transform.position = Vector3.MoveTowards (transform.position, currentTile.GObject.transform.position, step);
 	}
 
 	//Triggered whenever PacMan collides with another collider
@@ -90,7 +87,7 @@ public class PacManControls : MonoBehaviour {
 			case "Ghost":
 				if (grid.GetComponent<GameStatesManager>().GameState == GameStatesManager.AvailableGameStates.StrongPacMan) {
 					grid.GetComponent<AudioManager> ().PlaySound ("PacManEatGhost");
-					other.gameObject.GetComponent<Ghost> ().SetGhostState(Ghost.AvailableGhostStates.Dead);
+					other.gameObject.GetComponent<Ghost> ().SetGhostState(Ghost.AvailableGhostStates.DeadIdle);
 				} else if (grid.GetComponent<GameStatesManager>().GameState == GameStatesManager.AvailableGameStates.WeakPacMan) {
 					grid.GetComponent<AudioManager> ().PlaySound ("PacManDead");
 					SetPacManState (AvailablePacManStates.Dead);

@@ -4,6 +4,8 @@ using UnityEngine.Events;
 
 public class GameStatesManager : MonoBehaviour {
 
+	public float boostDurationInSeconds = 8.0f;
+
 	public enum AvailableGameStates {
 		ConsultingMenu,	//Player is consulting the menu
 		GettingReady,	//Game is about to start
@@ -100,7 +102,7 @@ public class GameStatesManager : MonoBehaviour {
 	}
 
 	IEnumerator StrongPacManCountDown() {
-		yield return new WaitForSeconds(5.0f);
+		yield return new WaitForSeconds(boostDurationInSeconds);
 		while (gameState == AvailableGameStates.Paused) {
 			yield return new WaitForSeconds(1.0f);
 		}
