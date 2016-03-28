@@ -18,6 +18,14 @@ public class GhostSimpleAi : Ghost {
 		
 	}
 
+	public override void SetGhostColor(bool afraid) {
+		if (afraid) {
+			gameObject.GetComponent<SpriteRenderer> ().color = Color.blue;
+		} else {
+			gameObject.GetComponent<SpriteRenderer> ().color = Color.red;
+		}
+	}
+
 	//Sets the ghost speed
 	public void SetGhostSpeed() {
 		speed = Random.Range (minSpeed, maxSpeed);

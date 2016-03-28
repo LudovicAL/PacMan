@@ -48,16 +48,14 @@ public class PacManControls : MonoBehaviour {
 	void Update () {
 		switch (pacManState) {
 			case AvailablePacManStates.ChasingMoving:
+			case AvailablePacManStates.AfraidMoving:
+				float step = speed * Time.deltaTime;
+				transform.position = Vector3.MoveTowards (transform.position, currentTile.GObject.transform.position, step);
 				if (transform.position == currentTile.GObject.transform.position) {
-					SetPacManState (AvailablePacManStates.ChasingIdle);
+					SetStateIdle();
 				}
 				break;
 			case AvailablePacManStates.ChasingIdle:
-				break;
-			case AvailablePacManStates.AfraidMoving:
-				if (transform.position == currentTile.GObject.transform.position) {
-					SetPacManState (AvailablePacManStates.AfraidIdle);
-				}
 				break;
 			case AvailablePacManStates.AfraidIdle:
 				break;
@@ -85,13 +83,15 @@ public class PacManControls : MonoBehaviour {
 				Destroy (other.gameObject);
 				break;
 			case "Ghost":
-				if (grid.GetComponent<GameStatesManager>().GameState == GameStatesManager.AvailableGameStates.StrongPacMan) {
-					grid.GetComponent<AudioManager> ().PlaySound ("PacManEatGhost");
-					other.gameObject.GetComponent<Ghost> ().SetGhostState(Ghost.AvailableGhostStates.DeadIdle);
-				} else if (grid.GetComponent<GameStatesManager>().GameState == GameStatesManager.AvailableGameStates.WeakPacMan) {
-					grid.GetComponent<AudioManager> ().PlaySound ("PacManDead");
-					SetPacManState (AvailablePacManStates.Dead);
-					grid.GetComponent<GameStatesManager> ().ChangeGameState (GameStatesManager.AvailableGameStates.PacManLoses);
+				if (other.GetComponent<Ghost>().IsAlive) {
+					if (grid.GetComponent<GameStatesManager>().GameState == GameStatesManager.AvailableGameStates.StrongPacMan) {
+						grid.GetComponent<AudioManager> ().PlaySound ("PacManEatGhost");
+						other.gameObject.GetComponent<Ghost> ().SetGhostState(Ghost.AvailableGhostStates.DeadIdle);
+					} else if (grid.GetComponent<GameStatesManager>().GameState == GameStatesManager.AvailableGameStates.WeakPacMan) {
+						grid.GetComponent<AudioManager> ().PlaySound ("PacManDead");
+						SetPacManState (AvailablePacManStates.Dead);
+						grid.GetComponent<GameStatesManager> ().ChangeGameState (GameStatesManager.AvailableGameStates.PacManLoses);
+					}
 				}
 				break;
 		}
@@ -137,16 +137,16 @@ public class PacManControls : MonoBehaviour {
 	private void SetStateMoving (int dirX, int dirY) {
 		if (pacManState == AvailablePacManStates.ChasingIdle) {
 			SetPacManState (AvailablePacManStates.ChasingMoving, dirX, dirY);
-		} else {
+		} else if (pacManState == AvailablePacManStates.AfraidIdle) {
 			SetPacManState (AvailablePacManStates.AfraidMoving, dirX, dirY);
 		}
 	}
 
 	//Changes Pac-Man's state to the appropriate kind of idle
-	private void SetStateAfraidOrChasingIdle () {
+	private void SetStateIdle () {
 		if (pacManState == AvailablePacManStates.ChasingMoving) {
 			SetPacManState (AvailablePacManStates.ChasingIdle);
-		} else {
+		} else if (pacManState == AvailablePacManStates.AfraidMoving) {
 			SetPacManState (AvailablePacManStates.AfraidIdle);
 		}
 	}

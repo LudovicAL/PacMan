@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public abstract class Ghost : MonoBehaviour {
 
@@ -19,14 +20,13 @@ public abstract class Ghost : MonoBehaviour {
 		DeadPaused			//Dead and paused
 	};
 
-	protected int motionX;
-	protected int motionY;
+	protected int direction;
 	protected AvailableGhostStates ghostState;
 	protected Tile currentTile;
 
 	// Use this for initialization
 	void Start () {
-		SetGhostState (AvailableGhostStates.Paused, 0, 0);
+		SetGhostState (AvailableGhostStates.Paused);
 		if (grid != null) {
 			grid.GetComponent<GameStatesManager> ().ConsultingMenuGameState.AddListener(OnConsultingMenu);
 			grid.GetComponent<GameStatesManager> ().GettingReadyGameState.AddListener(OnGettingReady);
@@ -47,9 +47,8 @@ public abstract class Ghost : MonoBehaviour {
 	}
 
 	//Sets the ghost's state
-	public void SetGhostState(AvailableGhostStates state, int dirX, int dirY) {
-		this.motionX = dirX;
-		this.motionY = dirY;
+	public void SetGhostState(AvailableGhostStates state, int dir) {
+		this.direction = dir;
 		ghostState = state;
 		SetAnimation();
 	}
@@ -101,19 +100,19 @@ public abstract class Ghost : MonoBehaviour {
 	}
 
 	//Changes the ghost state to the appropriate kind of moving state
-	protected void GoMoving(int dirX, int dirY) {
+	protected void GoMoving(int dir) {
 		switch(ghostState) {
 			case AvailableGhostStates.ChasingIdle:
-				SetGhostState (AvailableGhostStates.ChasingMoving, dirX, dirY);
+				SetGhostState (AvailableGhostStates.ChasingMoving, dir);
 				break;
 			case AvailableGhostStates.AfraidIdle:
-				SetGhostState (AvailableGhostStates.AfraidMoving, dirX, dirY);
+				SetGhostState (AvailableGhostStates.AfraidMoving, dir);
 				break;
 			case AvailableGhostStates.WanderingIdle:
-				SetGhostState (AvailableGhostStates.WanderingMoving, dirX, dirY);
+				SetGhostState (AvailableGhostStates.WanderingMoving, dir);
 				break;
 			case AvailableGhostStates.DeadIdle:
-				SetGhostState (AvailableGhostStates.DeadMoving, dirX, dirY);
+				SetGhostState (AvailableGhostStates.DeadMoving, dir);
 				break;
 		}	
 	}
@@ -122,8 +121,7 @@ public abstract class Ghost : MonoBehaviour {
 	protected void SetAnimator(bool afraid, bool dead) {
 		this.GetComponent<Animator> ().SetBool ("Afraid", afraid);
 		this.GetComponent<Animator> ().SetBool ("Dead", dead);
-		this.GetComponent<Animator> ().SetInteger ("MotionX", motionX);
-		this.GetComponent<Animator> ().SetInteger ("MotionY", motionY);
+		this.GetComponent<Animator> ().SetInteger ("Direction", direction);
 	}
 
 	protected void OnConsultingMenu() {
@@ -140,6 +138,7 @@ public abstract class Ghost : MonoBehaviour {
 		} else {
 			SetGhostState (AvailableGhostStates.DeadIdle);
 		}
+		SetGhostColor (false);
 	}
 
 	protected void OnStrongPacMan() {
@@ -148,6 +147,7 @@ public abstract class Ghost : MonoBehaviour {
 		} else {
 			SetGhostState (AvailableGhostStates.DeadIdle);
 		}
+		SetGhostColor (true);
 	}
 
 	protected void OnNoPacMan() {
@@ -180,18 +180,19 @@ public abstract class Ghost : MonoBehaviour {
 
 
 	//Returns a list of all the neighbor tiles that are not walls
-	protected List<Tile> GetNonWallNeighborTiles() {
-		List<Tile> nonWallNeighborTiles = new List<Tile> ();
-		foreach (Tile tile in currentTile.NeighborTiles) {
-			if (tile != null && tile.TileType != Tile.AvailableTileTypes.Wall) {
-				nonWallNeighborTiles.Add (tile);
+	protected List<TileDirectionPair> GetNonWallNeighborTilesDirectionPair() {
+		List<TileDirectionPair> nonWallNeighborTilesDirectionPair = new List<TileDirectionPair> ();
+		for (int i = 0; i < 4; i++) {
+			if (currentTile.NeighborTiles[i] != null && currentTile.NeighborTiles[i].TileType != Tile.AvailableTileTypes.Wall) {
+				nonWallNeighborTilesDirectionPair.Add (new TileDirectionPair(i, currentTile.NeighborTiles[i]));
 			}
 		}
-		return nonWallNeighborTiles;
+		return nonWallNeighborTilesDirectionPair;
 	}
 
 	public abstract void SubStart();
 	public abstract void SubUpdate();
+	public abstract void SetGhostColor(bool afraid);
 
 	//Proterties
 	public Tile CurrentTile {
@@ -214,7 +215,7 @@ public abstract class Ghost : MonoBehaviour {
 
 	public bool IsAlive {
 		get {
-			if (ghostState != AvailableGhostStates.DeadMoving || ghostState != AvailableGhostStates.DeadIdle || ghostState != AvailableGhostStates.DeadPaused) {
+			if (ghostState != AvailableGhostStates.DeadMoving && ghostState != AvailableGhostStates.DeadIdle && ghostState != AvailableGhostStates.DeadPaused) {
 				return true;
 			} else {
 				return false;

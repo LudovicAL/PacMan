@@ -9,8 +9,7 @@ public class GhostRandomAi : Ghost {
 	public float maxSpeed = 6.0f;
 
 	private float speed;
-	private int previousMotionX;
-	private int previousMotionY;
+	private int previousDirection;
 
 	public override void  SubStart() {
 		SetGhostSpeed ();
@@ -26,10 +25,8 @@ public class GhostRandomAi : Ghost {
 				float step = speed * Time.deltaTime;
 				transform.position = Vector3.MoveTowards (transform.position, currentTile.GObject.transform.position, step);
 				if (transform.position == currentTile.GObject.transform.position) {
-					previousMotionX = motionX;
-					previousMotionY = motionY;
-					motionX = 0;
-					motionY = 0;
+					previousDirection = direction;
+					direction = 0;
 					GoIdle ();
 				}
 				break;
@@ -37,12 +34,21 @@ public class GhostRandomAi : Ghost {
 			case AvailableGhostStates.AfraidIdle:
 			case AvailableGhostStates.WanderingIdle:
 			case AvailableGhostStates.DeadIdle:
-				Tile tile = GetNextRandomTileToGo ();
-				if (tile != null) {
-					GoMoving (tile.CoordX - currentTile.CoordX, tile.CoordY - currentTile.CoordY);
-					currentTile = tile;
+				TileDirectionPair tileDirectionPair = GetNextRandomTileToGo ();
+				if (tileDirectionPair != null) {
+					GoMoving (tileDirectionPair.Direction);
+					currentTile = tileDirectionPair.Tile;
 				}
 				break;
+		}
+	}
+
+	public override void SetGhostColor(bool afraid) {
+		
+		if (afraid) {
+			gameObject.GetComponent<SpriteRenderer> ().color = Color.cyan;
+		} else {
+			gameObject.GetComponent<SpriteRenderer> ().color = Color.magenta;
 		}
 	}
 
@@ -52,34 +58,34 @@ public class GhostRandomAi : Ghost {
 	}
 
 	//Returns the next destination tile choosen somewhat randomly
-	public Tile GetNextRandomTileToGo() {
-		Tile tile = null;
-		List<Tile> nonWallNeighborTiles = GetNonWallNeighborTiles ();
-		if (nonWallNeighborTiles.Count > 0) {
-			if (nonWallNeighborTiles.Count == 1) {	//If there is only one way to go
-				tile = nonWallNeighborTiles.First ();
-			} else if (nonWallNeighborTiles.Count > 1) {	//If there is more than one way to go
-				if (previousMotionY == 0 && previousMotionX == 0) {	//If Pac-Man hasn't started moving yet
-					tile = nonWallNeighborTiles [Random.Range (0, nonWallNeighborTiles.Count)];
-				} else if (previousMotionY == 1 && currentTile.NeighborTiles[0].TileType == Tile.AvailableTileTypes.Wall) {	//If Pac-Man, going up, just hitted a wall
-					tile = nonWallNeighborTiles [Random.Range (0, nonWallNeighborTiles.Count)];
-				} else if (previousMotionX == 1 && currentTile.NeighborTiles[1].TileType == Tile.AvailableTileTypes.Wall) {	//If Pac-Man, going right, just hitted a wall
-					tile = nonWallNeighborTiles [Random.Range (0, nonWallNeighborTiles.Count)];
-				} else if (previousMotionY == -1 && currentTile.NeighborTiles[2].TileType == Tile.AvailableTileTypes.Wall) {	//If Pac-Man, going down, just hitted a wall
-					tile = nonWallNeighborTiles [Random.Range (0, nonWallNeighborTiles.Count)];
-				} else if (previousMotionX == -1 && currentTile.NeighborTiles[3].TileType == Tile.AvailableTileTypes.Wall) {	//If Pac-Man, going left, just hitted a wall
-					tile = nonWallNeighborTiles [Random.Range (0, nonWallNeighborTiles.Count)];
-				} else {	//If Pac-Man, meets any other intersection
-					
+	public TileDirectionPair GetNextRandomTileToGo() {
+		TileDirectionPair tileDirectionPair = null;
+		List<TileDirectionPair> nonWallNeighborTilesDirectionPair = GetNonWallNeighborTilesDirectionPair ();
+		if (nonWallNeighborTilesDirectionPair.Count > 1) {	//If there is more than one way to go
+			if (currentTile.NeighborTiles[direction].TileType == Tile.AvailableTileTypes.Wall) {	//If the ghost just met a wall
+				tileDirectionPair = nonWallNeighborTilesDirectionPair[Random.Range(0, nonWallNeighborTilesDirectionPair.Count)];
+			} else {	//In any other case
+				int index = nonWallNeighborTilesDirectionPair.FindIndex(TileDirectionPair => TileDirectionPair.Direction.Equals(GetOppositeDirection()));
+				if (index != -1) {
+					nonWallNeighborTilesDirectionPair.RemoveAt (index);
 				}
+				tileDirectionPair = nonWallNeighborTilesDirectionPair[Random.Range(0, nonWallNeighborTilesDirectionPair.Count)];
 			}
+		} else if (nonWallNeighborTilesDirectionPair.Count == 1) {	//If there is only one way to go
+			tileDirectionPair = nonWallNeighborTilesDirectionPair.First ();
 		}
-		return tile;
+		return tileDirectionPair;
 	}
-	
-	public int GetRandomTileExcluding(Tile excluded) {
-		int i = -1;
 
-		return i;
+	public int GetOppositeDirection() {
+		if (previousDirection == 0) {
+			return 2;
+		} else if (previousDirection == 1) {
+			return 3;
+		} else if (previousDirection == 2) {
+			return 0;
+		} else {
+			return 1;
+		}
 	}
 }
