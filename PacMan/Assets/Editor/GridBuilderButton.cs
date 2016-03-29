@@ -8,8 +8,8 @@ public class GridBuilderButton : Editor {
 	public override void OnInspectorGUI() {
 		DrawDefaultInspector();
 		GridManager myScript = (GridManager)target;
-		if(GUILayout.Button("Build Grid")) {
-			myScript.BuildGrid();
+		if(GUILayout.Button("Load first level")) {
+			myScript.GridBuilderButtonClic ();
 		}
 	}
 }

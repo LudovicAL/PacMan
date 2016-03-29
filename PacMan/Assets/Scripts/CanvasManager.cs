@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 
 public class CanvasManager : MonoBehaviour {
 
@@ -11,8 +10,7 @@ public class CanvasManager : MonoBehaviour {
 	public GameObject gameCanvasPanel;
 	public GameObject menuCanvasMenuPanel;
 	public GameObject menuCanvasGamePanel;
-	public Button pauseButton;
-	public Button restartButton;
+	public Button gamePanelButton;
 	public Text scoreValueText;
 	public Text gameCanvasText;
 
@@ -23,7 +21,6 @@ public class CanvasManager : MonoBehaviour {
 		this.GetComponent<GameStatesManager> ().GettingReadyGameState.AddListener(OnGettingReady);
 		this.GetComponent<GameStatesManager> ().WeakPacManGameState.AddListener(OnWeakPacMan);
 		this.GetComponent<GameStatesManager> ().StrongPacManGameState.AddListener(OnStrongPacMan);
-		this.GetComponent<GameStatesManager> ().NoPacManGameState.AddListener(OnNoPacMan);
 		this.GetComponent<GameStatesManager> ().PacManWinsGameState.AddListener(OnPacManWins);
 		this.GetComponent<GameStatesManager> ().PacManLosesGameState.AddListener(OnPacManLoses);
 		this.GetComponent<GameStatesManager> ().PausedGameState.AddListener(OnGamePaused);
@@ -50,9 +47,31 @@ public class CanvasManager : MonoBehaviour {
 		this.GetComponent<GameStatesManager> ().ChangeGameState (GameStatesManager.AvailableGameStates.GettingReady);
 	}
 
-	public void OnRestartButtonClic() {
-		PersistentData.currentScore = PersistentData.scoreAtBeginingOfLevel;
-		SceneManager.LoadScene (SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+	public void OnQuitButtonClic() {
+		Application.Quit ();
+	}
+
+	public void OnGameButtonClic() {
+		switch(gameObject.GetComponent<GameStatesManager>().GameState) {
+			case GameStatesManager.AvailableGameStates.StrongPacMan:
+			case GameStatesManager.AvailableGameStates.WeakPacMan:
+			case GameStatesManager.AvailableGameStates.Paused:
+				gameObject.GetComponent<GameStatesManager> ().OnEscapeKeyPressed ();
+				break;
+			case GameStatesManager.AvailableGameStates.PacManLoses:
+				//Restart
+				break;
+			case GameStatesManager.AvailableGameStates.PacManWins:
+				if (PersistentData.currentLevel < gameObject.GetComponent<GridManager> ().MapFile.Length - 1) {
+					PersistentData.currentLevel = 0;
+				}
+				gameObject.GetComponent<GridManager> ().LoadLevel(PersistentData.currentLevel);
+				break;
+			case GameStatesManager.AvailableGameStates.GettingReady:
+			case GameStatesManager.AvailableGameStates.ConsultingMenu:
+				//Nothing happens...
+				break;
+		}
 	}
 
 	public void OnPauseButtonClic() {
@@ -60,59 +79,81 @@ public class CanvasManager : MonoBehaviour {
 	}
 
 	public void OnConsultingMenu() {
-		gameCanvasText.text = "PRESS START";
-		menuCanvasMenuPanel.SetActive (true);
-		menuCanvasGamePanel.SetActive (false);
-		PersistentData.scoreAtBeginingOfLevel = PersistentData.currentScore;
+		SetGameCanvas ("PRESS START", true);
+		SetGameCanvas ("", true);
+		SetMenuCanvasPanels (true);
 	}
 
 	public void OnGettingReady() {
-		scoreValueText.text = "0";
-		pauseButton.enabled = false;
-		pauseButton.enabled = false;
-		restartButton.enabled = false;
-		menuCanvasMenuPanel.SetActive (false);
-		menuCanvasGamePanel.SetActive (true);
+		SetGamePanelButton ("", false);
+		SetGameCanvas ("", true);
+		SetMenuCanvasPanels (false);
 		StartCoroutine(ShowCountDown());
+		PersistentData.currentScore = PersistentData.scoreAtBeginingOfLevel;
 	}
 
 	public void OnWeakPacMan() {
-		pauseButton.GetComponentInChildren<Text> ().text = "PAUSE";
-		pauseButton.enabled = true;
-		restartButton.enabled = true;
-		gameCanvasPanel.SetActive(false);
+		SetGamePanelButton ("PAUSE", true);
+		SetGameCanvas ("", false);
+		SetMenuCanvasPanels (false);
 	}
 
 	public void OnStrongPacMan() {
-		pauseButton.GetComponentInChildren<Text> ().text = "PAUSE";
-		pauseButton.enabled = true;
-		gameCanvasPanel.SetActive(false);
-	}
-
-	public void OnNoPacMan() {
+		SetGamePanelButton ("PAUSE", true);
+		SetGameCanvas ("", false);
+		SetMenuCanvasPanels (false);
 	}
 
 	public void OnPacManWins() {
-		pauseButton.enabled = false;
-		gameCanvasText.text = "YOU WON !";
-		gameCanvasPanel.SetActive(true);
+		SetGamePanelButton ("NEXT LEVEL", true);
+		SetGameCanvas ("YOU WON !", true);
+		SetMenuCanvasPanels (false);
+		PersistentData.scoreAtBeginingOfLevel = PersistentData.currentScore;
+		PersistentData.currentLevel++;
 	}
 
 	public void OnPacManLoses() {
-		pauseButton.enabled = false;
-		gameCanvasText.text = "GAME OVER";
-		gameCanvasPanel.SetActive(true);
+		SetGamePanelButton ("RESTART", true);
+		SetGameCanvas ("GAME OVER", true);
+		SetMenuCanvasPanels (false);
 	}
 
 	public void OnGamePaused() {
-		pauseButton.GetComponentInChildren<Text> ().text = "UNPAUSE";
-		gameCanvasText.text = "GAME PAUSED";
-		gameCanvasPanel.SetActive(true);
+		SetGamePanelButton ("UNPAUSE", true);
+		SetGameCanvas ("GAME PAUSED", true);
+		SetMenuCanvasPanels (false);
 	}
 
 	public void OnReturnKeyPressed() {
-		if (menuCanvasMenuPanel.activeSelf) {
-			OnStartButtonClic ();
+		switch(gameObject.GetComponent<GameStatesManager>().GameState) {
+			case GameStatesManager.AvailableGameStates.ConsultingMenu:
+				OnStartButtonClic ();
+				break;
+			case GameStatesManager.AvailableGameStates.StrongPacMan:
+			case GameStatesManager.AvailableGameStates.WeakPacMan:
+			case GameStatesManager.AvailableGameStates.PacManLoses:
+			case GameStatesManager.AvailableGameStates.PacManWins:
+			case GameStatesManager.AvailableGameStates.Paused:
+				OnGameButtonClic ();				
+				break;
+			case GameStatesManager.AvailableGameStates.GettingReady:
+				//Nothing happens...
+				break;
 		}
+	}
+
+	public void SetGamePanelButton(string text, bool enabled) {
+		gamePanelButton.GetComponentInChildren<Text> ().text = text;
+		gamePanelButton.enabled = true;
+	}
+
+	public void SetMenuCanvasPanels(bool menuPanelEnabled) {
+		menuCanvasMenuPanel.SetActive(menuPanelEnabled);
+		menuCanvasGamePanel.SetActive(!menuPanelEnabled);
+	}
+
+	public void SetGameCanvas(string text, bool enabled) {
+		gameCanvasText.text = text;
+		gameCanvasPanel.SetActive(enabled);
 	}
 }

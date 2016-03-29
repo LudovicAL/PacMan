@@ -35,7 +35,6 @@ public class PacManControls : MonoBehaviour {
 			grid.GetComponent<GameStatesManager> ().GettingReadyGameState.AddListener(OnGettingReady);
 			grid.GetComponent<GameStatesManager> ().WeakPacManGameState.AddListener(OnWeakPacMan);
 			grid.GetComponent<GameStatesManager> ().StrongPacManGameState.AddListener(OnStrongPacMan);
-			grid.GetComponent<GameStatesManager> ().NoPacManGameState.AddListener(OnNoPacMan);
 			grid.GetComponent<GameStatesManager> ().PacManWinsGameState.AddListener(OnPacManWins);
 			grid.GetComponent<GameStatesManager> ().PacManLosesGameState.AddListener(OnPacManLoses);
 			grid.GetComponent<GameStatesManager> ().PausedGameState.AddListener(OnGamePaused);
@@ -189,11 +188,6 @@ public class PacManControls : MonoBehaviour {
 		} else {
 			SetPacManState (AvailablePacManStates.ChasingIdle);
 		}
-	}
-
-	//Called when gamestates changes to NoPacMan
-	public void OnNoPacMan() {
-		Destroy (this.gameObject);
 	}
 
 	//Called when gamestates changes to PacManWins

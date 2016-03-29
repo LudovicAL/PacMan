@@ -43,7 +43,6 @@ public abstract class Ghost : MonoBehaviour {
 			grid.GetComponent<GameStatesManager> ().GettingReadyGameState.AddListener(OnGettingReady);
 			grid.GetComponent<GameStatesManager> ().WeakPacManGameState.AddListener(OnWeakPacMan);
 			grid.GetComponent<GameStatesManager> ().StrongPacManGameState.AddListener(OnStrongPacMan);
-			grid.GetComponent<GameStatesManager> ().NoPacManGameState.AddListener(OnNoPacMan);
 			grid.GetComponent<GameStatesManager> ().PacManWinsGameState.AddListener(OnPacManWins);
 			grid.GetComponent<GameStatesManager> ().PacManLosesGameState.AddListener(OnPacManLoses);
 			grid.GetComponent<GameStatesManager> ().PausedGameState.AddListener(OnGamePaused);
@@ -205,14 +204,6 @@ public abstract class Ghost : MonoBehaviour {
 			SetGhostState (AvailableGhostStates.DeadIdle);
 		}
 		SetGhostColor (true);
-	}
-
-	protected void OnNoPacMan() {
-		if (IsAlive) {
-			SetGhostState (AvailableGhostStates.WanderingIdle);
-		} else {
-			SetGhostState (AvailableGhostStates.DeadIdle);
-		}
 	}
 
 	protected void OnPacManWins() {

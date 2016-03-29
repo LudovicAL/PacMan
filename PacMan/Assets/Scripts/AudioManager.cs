@@ -28,7 +28,6 @@ public class AudioManager : MonoBehaviour {
 		gameObject.GetComponent<GameStatesManager> ().GettingReadyGameState.AddListener(OnGettingReady);
 		gameObject.GetComponent<GameStatesManager> ().WeakPacManGameState.AddListener(OnWeakPacMan);
 		gameObject.GetComponent<GameStatesManager> ().StrongPacManGameState.AddListener(OnStrongPacMan);
-		gameObject.GetComponent<GameStatesManager> ().NoPacManGameState.AddListener(OnNoPacMan);
 		gameObject.GetComponent<GameStatesManager> ().PacManWinsGameState.AddListener(OnPacManWins);
 		gameObject.GetComponent<GameStatesManager> ().PacManLosesGameState.AddListener(OnPacManLoses);
 		gameObject.GetComponent<GameStatesManager> ().PausedGameState.AddListener(OnGamePaused);

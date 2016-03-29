@@ -11,7 +11,6 @@ public class GameStatesManager : MonoBehaviour {
 		GettingReady,	//Game is about to start
 		WeakPacMan,		//Pac-Man is being chased by the ghosts
 		StrongPacMan,	//Pac-Man is chasing the ghosts
-		NoPacMan,		//Pac-Man isn't in play
 		PacManLoses,	//Pac-Man lost
 		PacManWins,		//Pac-Man won
 		Paused			//Game is paused
@@ -21,7 +20,6 @@ public class GameStatesManager : MonoBehaviour {
 	public UnityEvent GettingReadyGameState;
 	public UnityEvent WeakPacManGameState;
 	public UnityEvent StrongPacManGameState;
-	public UnityEvent NoPacManGameState;
 	public UnityEvent PacManWinsGameState;
 	public UnityEvent PacManLosesGameState;
 	public UnityEvent PausedGameState;
@@ -42,9 +40,6 @@ public class GameStatesManager : MonoBehaviour {
 		}
 		if (StrongPacManGameState == null) {
 			StrongPacManGameState = new UnityEvent();
-		}
-		if (NoPacManGameState == null) {
-			NoPacManGameState = new UnityEvent();
 		}
 		if (PacManWinsGameState == null) {
 			PacManWinsGameState = new UnityEvent();
@@ -85,9 +80,6 @@ public class GameStatesManager : MonoBehaviour {
 			case AvailableGameStates.StrongPacMan:
 				StrongPacManGameState.Invoke ();
 				StartCoroutine(StrongPacManCountDown());
-				break;
-			case AvailableGameStates.NoPacMan:
-				NoPacManGameState.Invoke ();
 				break;
 			case AvailableGameStates.PacManLoses:
 				PacManLosesGameState.Invoke ();

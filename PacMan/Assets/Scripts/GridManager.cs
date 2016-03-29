@@ -17,64 +17,13 @@ public class GridManager : MonoBehaviour {
 
 	private List<Tile> tileList;
 	private List<Tile> walkableTileList;
-	private List<GameObject> ghostList;
 	private GameObject pacMan;
 
 	// Use this for initialization
 	void Awake () {
-		//Retrieving grid data
 		tileList = new List<Tile> ();
 		walkableTileList = new List<Tile> ();
-		foreach(Transform child in this.transform) {
-			int coordX = (int)child.position.x;
-			int coordY = (int)child.position.y;
-			Tile.AvailableTileTypes tileType;
-			switch(child.tag) {
-				case "Walkable":
-					tileType = Tile.AvailableTileTypes.Walkable;
-					break;
-				case "Doted":
-					tileType = Tile.AvailableTileTypes.Doted;
-					break;
-				case "Boosted":
-					tileType = Tile.AvailableTileTypes.Boosted;
-					break;
-				case "PacManStartingPosition":
-					tileType = Tile.AvailableTileTypes.PacManStartingPosition;
-					break;
-				case "GhostStartingPositionDumbAStarAi":
-					tileType = Tile.AvailableTileTypes.GhostStartingPositionDumbAStarAi;
-					break;
-				case "GhostStartingPositionWiseAStarAi":
-					tileType = Tile.AvailableTileTypes.GhostStartingPositionWiseAStarAi;
-					break;
-				default:
-					tileType = Tile.AvailableTileTypes.Wall;
-					break;
-			}
-			GameObject gObject = child.gameObject;
-			tileList.Add (new Tile (coordX, coordY, tileType, gObject));
-			if (tileType != Tile.AvailableTileTypes.Wall) {
-				walkableTileList.Add (tileList.Last ());
-			}
-		}
-		//Retrieving neighbors data
-		foreach(Tile tile in tileList) {
-			FindNeighbors(tile);
-			FindNonWallNeighbors(tile);
-		}
-		//Retrieving ghost data
-		ghostList = new List<GameObject> ();
-		foreach(Transform child in ghostsContainer.transform) {
-			ghostList.Add (child.gameObject);
-			child.GetComponent<Ghost> ().CurrentTile = FindTileByCoordinates ((int)child.transform.position.x, (int)child.transform.position.y);
-		}
-		//Retrieving pacMan data
-		foreach(Transform child in pacManContainer.transform) {
-			pacMan = child.gameObject;
-			child.GetComponent<PacManControls> ().CurrentTile = FindTileByCoordinates ((int)child.transform.position.x, (int)child.transform.position.y);
-		}
-		PositionMainCamera ();
+		LoadLevel (0);
 	}
 
 	// Use this for initialization
@@ -86,7 +35,48 @@ public class GridManager : MonoBehaviour {
 	void Update () {
 	}
 
-	//Delete all child objects of this transform
+	//Loads the specified level (reads the txt file, builds the grid, find every tile's neighbors and places dots and boosts)
+	public void LoadLevel(int i) {
+		//Clear everything
+		ClearTransform (this.transform);
+		ClearTransform (ghostsContainer.transform);
+		ClearTransform (pacManContainer.transform);
+		if (tileList != null) {	//This check is made necessary by the fact that this function can be called in the editor
+			tileList.Clear ();
+		}
+		if (walkableTileList != null) {	//This check is made necessary by the fact that this function can be called in the editor
+			walkableTileList.Clear ();
+		}
+		//Get new data from the mapFile
+		if (tilePrefab != null && mapFile[i] != null) {
+			tileList = MapFileReader.Read (mapFile[i]);
+			foreach(Tile tile in tileList) {
+				BuildTileGameObject (tile);
+				if (tile.TileType != Tile.AvailableTileTypes.Wall) {
+					walkableTileList.Add (tile);
+				}
+			}
+		} else {
+			Debug.Log("The script component is missing a reference.");
+		}
+		foreach(Tile tile in tileList) {
+			//Find neighbors
+			FindNeighbors(tile);
+			AssignWallsSprite (tile);
+			//Spawn units
+			SpawnGhost (tile);
+			SpawnPacMan (tile);
+		}
+		//Retrieving neighbors data
+		foreach(Tile tile in tileList) {
+			FindNeighbors(tile);
+			FindNonWallNeighbors(tile);
+		}
+		//Position Main Camera
+		PositionMainCamera ();
+	}
+
+	//Deletes all child objects of this transform
 	public void ClearTransform(Transform t) {
 		var childList = new List<GameObject>();
 		foreach(Transform child in t) {
@@ -95,30 +85,8 @@ public class GridManager : MonoBehaviour {
 		childList.ForEach(child => DestroyImmediate(child));
 	}
 
-	//Build the grid (reads the txt file, builds the grid, find every tile's neighbors and places dots and boosts)
-	public void BuildGrid() {
-		ClearTransform (this.transform);
-		ClearTransform (ghostsContainer.transform);
-		ClearTransform (pacManContainer.transform);
-		if (tilePrefab != null && mapFile[PersistentData.currentLevel] != null) {
-			tileList = MapFileReader.Read (mapFile[PersistentData.currentLevel]);
-			foreach(Tile tile in tileList) {
-				BuildTile (tile);
-			}
-		} else {
-			Debug.Log("The script component is missing a reference.");
-		}
-		foreach(Tile tile in tileList) {
-			FindNeighbors(tile);
-			AssignWallsSprite (tile);
-			SpawnGhost (tile);
-			SpawnPacMan (tile);
-		}
-		PositionMainCamera ();
-	}
-
 	//Builds a single tile and reference it in the tileList
-	public void BuildTile(Tile tile) {
+	public void BuildTileGameObject(Tile tile) {
 		GameObject tileSprite = (GameObject)Instantiate (tilePrefab, new Vector3 (tile.CoordX, tile.CoordY, 0.0f), Quaternion.identity);
 		tileSprite.transform.SetParent(this.transform);
 		tile.GObject = tileSprite;
@@ -153,7 +121,7 @@ public class GridManager : MonoBehaviour {
 		}
 	}
 
-	//Position the main camera on the game field and scales it
+	//Places the main camera on the game field and scales it
 	public void PositionMainCamera() {
 		Vector3 firstTilePosition = tileList.ElementAt(0).GObject.transform.position;
 		Vector3 lastTilePosition = tileList.ElementAt(tileList.Count - 1).GObject.transform.position;
@@ -198,10 +166,11 @@ public class GridManager : MonoBehaviour {
 
 	//Spawns Pac-Man
 	private void SpawnPacMan(Tile tile) {
-		if (tile.TileType == Tile.AvailableTileTypes.PacManStartingPosition) {
-			GameObject pacMan = (GameObject)Instantiate (pacManPrefab, new Vector3 (tile.CoordX, tile.CoordY, 0.0f), Quaternion.identity);
+		if (tile.TileType == Tile.AvailableTileTypes.PacManStartingPosition && pacMan != null) {
+			pacMan = (GameObject)Instantiate (pacManPrefab, new Vector3 (tile.CoordX, tile.CoordY, 0.0f), Quaternion.identity);
 			pacMan.transform.SetParent (pacManContainer.transform);
 			pacMan.GetComponent<PacManControls> ().grid = this.gameObject;
+			pacMan.GetComponent<PacManControls> ().CurrentTile = tile;
 		}
 	}
 
@@ -210,13 +179,15 @@ public class GridManager : MonoBehaviour {
 		switch (tile.TileType) {
 			case Tile.AvailableTileTypes.GhostStartingPositionDumbAStarAi:
 				GameObject ghostDumbAStarAi = (GameObject)Instantiate (ghostDumbAStarAiPrefab, new Vector3 (tile.CoordX, tile.CoordY, 0.0f), Quaternion.identity);
-				ghostDumbAStarAi.transform.SetParent(ghostsContainer.transform);
+				ghostDumbAStarAi.transform.SetParent (ghostsContainer.transform);
 				ghostDumbAStarAi.GetComponent<GhostDumbAStarAi> ().grid = this.gameObject;
+				ghostDumbAStarAi.GetComponent<GhostDumbAStarAi> ().CurrentTile = tile;
 				break;
 			case Tile.AvailableTileTypes.GhostStartingPositionWiseAStarAi:
 				GameObject ghostWiseAStarAi = (GameObject)Instantiate (ghostWiseAStarAiPrefab, new Vector3 (tile.CoordX, tile.CoordY, 0.0f), Quaternion.identity);
-				ghostWiseAStarAi.transform.SetParent(ghostsContainer.transform);
+				ghostWiseAStarAi.transform.SetParent (ghostsContainer.transform);
 				ghostWiseAStarAi.GetComponent<GhostWiseAStarAi> ().grid = this.gameObject;
+				ghostWiseAStarAi.GetComponent<GhostWiseAStarAi> ().CurrentTile = tile;
 				break;
 		}
 	}
@@ -252,6 +223,13 @@ public class GridManager : MonoBehaviour {
 		return tempoTile;
 	}
 
+	//When users clics the "Load first level" button in the editor
+	public void GridBuilderButtonClic() {
+		tileList = new List<Tile> ();
+		walkableTileList = new List<Tile> ();
+		LoadLevel (0);
+	}
+
 	//Properties
 	public List<Tile> TileList {
 		get {
@@ -268,6 +246,12 @@ public class GridManager : MonoBehaviour {
 	public GameObject PacMan {
 		get {
 			return pacMan;
+		}
+	}
+
+	public TextAsset[] MapFile {
+		get {
+			return mapFile;
 		}
 	}
 }
