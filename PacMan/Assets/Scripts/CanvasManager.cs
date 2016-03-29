@@ -67,10 +67,11 @@ public class CanvasManager : MonoBehaviour {
 				this.GetComponent<GameStatesManager> ().ChangeGameState (GameStatesManager.AvailableGameStates.GettingReady);
 				break;
 			case GameStatesManager.AvailableGameStates.PacManWins:
-				if (PersistentData.currentLevel < gameObject.GetComponent<GridManager> ().MapFile.Length - 1) {
+				if (PersistentData.currentLevel >= gameObject.GetComponent<GridManager> ().MapFile.Length) {
 					PersistentData.currentLevel = 0;
 				}
 				gameObject.GetComponent<GridManager> ().LoadLevel(PersistentData.currentLevel);
+				this.GetComponent<GameStatesManager> ().ChangeGameState (GameStatesManager.AvailableGameStates.GettingReady);
 				break;
 			case GameStatesManager.AvailableGameStates.GettingReady:
 			case GameStatesManager.AvailableGameStates.ConsultingMenu:
