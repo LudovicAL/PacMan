@@ -93,6 +93,7 @@ public class GameStatesManager : MonoBehaviour {
 		}
 	}
 
+	//Whenever pacman eat a boost, a countdown is launched to determine when it is the gamestate must return to weak pacman
 	IEnumerator StrongPacManCountDown() {
 		yield return new WaitForSeconds(boostDurationInSeconds);
 		while (gameState == AvailableGameStates.Paused) {

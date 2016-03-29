@@ -11,6 +11,7 @@ public class GhostWiseAStarAi : Ghost {
 	private Color[] chasingColors = new Color[] {Color.green, Color.magenta};
 	private Color[] afraidColors = new Color[] {Color.cyan, Color.gray};
 
+	//Returns the next destination tile
 	public override Tile GetDestinationTile() {
 		if (IsAlive) {
 			return grid.GetComponent<GridManager>().PacMan.GetComponent<PacManControls>().CurrentTile;
@@ -19,6 +20,7 @@ public class GhostWiseAStarAi : Ghost {
 		}
 	}
 
+	//Sets the ghost's color
 	public override void SetGhostColor(bool afraid) {
 		if (afraid) {
 			gameObject.GetComponent<SpriteRenderer> ().color = afraidColors[Random.Range(0, afraidColors.Length)];
@@ -27,7 +29,7 @@ public class GhostWiseAStarAi : Ghost {
 		}
 	}
 
-	//Sets the ghost speed
+	//Sets the ghost's speed
 	public override void SetGhostSpeed() {
 		speed = Random.Range (minSpeed, maxSpeed);
 	}

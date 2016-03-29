@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-//As System.Tuple isn't available in Unity, I create a class for the specific use of pairing directions and tiles
+//As System.Tuple isn't available in Unity, I created a class for the specific use of pairing directions and tiles
 public class TileDirectionPair {
 
 	private int direction;

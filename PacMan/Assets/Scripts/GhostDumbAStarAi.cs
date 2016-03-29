@@ -11,6 +11,7 @@ public class GhostDumbAStarAi : Ghost {
 	private Color[] chasingColors = new Color[] {Color.red, Color.yellow};
 	private Color[] afraidColors = new Color[] {Color.blue, Color.white};
 
+	//Returns the next destination tile
 	public override Tile GetDestinationTile() {
 		if (IsAlive) {
 			return grid.GetComponent<GridManager> ().WalkableTileList.ElementAt(Random.Range(0, grid.GetComponent<GridManager> ().WalkableTileList.Count));
@@ -19,6 +20,7 @@ public class GhostDumbAStarAi : Ghost {
 		}
 	}
 
+	//Sets the ghost color
 	public override void SetGhostColor(bool afraid) {
 		if (afraid) {
 			gameObject.GetComponent<SpriteRenderer> ().color = afraidColors[Random.Range(0, afraidColors.Length)];

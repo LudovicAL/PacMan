@@ -21,6 +21,7 @@ public class GridManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
+		pacMan = null;
 		tileList = new List<Tile> ();
 		walkableTileList = new List<Tile> ();
 		LoadLevel (0);
@@ -38,15 +39,7 @@ public class GridManager : MonoBehaviour {
 	//Loads the specified level (reads the txt file, builds the grid, find every tile's neighbors and places dots and boosts)
 	public void LoadLevel(int i) {
 		//Clear everything
-		ClearTransform (this.transform);
-		ClearTransform (ghostsContainer.transform);
-		ClearTransform (pacManContainer.transform);
-		if (tileList != null) {	//This check is made necessary by the fact that this function can be called in the editor
-			tileList.Clear ();
-		}
-		if (walkableTileList != null) {	//This check is made necessary by the fact that this function can be called in the editor
-			walkableTileList.Clear ();
-		}
+		ClearLevel();
 		//Get new data from the mapFile
 		if (tilePrefab != null && mapFile[i] != null) {
 			tileList = MapFileReader.Read (mapFile[i]);
@@ -74,6 +67,19 @@ public class GridManager : MonoBehaviour {
 		}
 		//Position Main Camera
 		PositionMainCamera ();
+	}
+
+	//Clears the level
+	public void ClearLevel() {
+		ClearTransform (this.transform);
+		ClearTransform (ghostsContainer.transform);
+		ClearTransform (pacManContainer.transform);
+		if (tileList != null) {	//This check is made necessary by the fact that this function can be called in the editor
+			tileList.Clear ();
+		}
+		if (walkableTileList != null) {	//This check is made necessary by the fact that this function can be called in the editor
+			walkableTileList.Clear ();
+		}
 	}
 
 	//Deletes all child objects of this transform
@@ -166,7 +172,7 @@ public class GridManager : MonoBehaviour {
 
 	//Spawns Pac-Man
 	private void SpawnPacMan(Tile tile) {
-		if (tile.TileType == Tile.AvailableTileTypes.PacManStartingPosition && pacMan != null) {
+		if (tile.TileType == Tile.AvailableTileTypes.PacManStartingPosition && pacMan == null) {
 			pacMan = (GameObject)Instantiate (pacManPrefab, new Vector3 (tile.CoordX, tile.CoordY, 0.0f), Quaternion.identity);
 			pacMan.transform.SetParent (pacManContainer.transform);
 			pacMan.GetComponent<PacManControls> ().grid = this.gameObject;
@@ -225,6 +231,7 @@ public class GridManager : MonoBehaviour {
 
 	//When users clics the "Load first level" button in the editor
 	public void GridBuilderButtonClic() {
+		pacMan = null;
 		tileList = new List<Tile> ();
 		walkableTileList = new List<Tile> ();
 		LoadLevel (0);

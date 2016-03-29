@@ -95,6 +95,7 @@ public abstract class Ghost : MonoBehaviour {
 		}
 	}
 
+	//Kills the ghost
 	public void Die() {
 		SetGhostState (AvailableGhostStates.DeadIdle);
 		progressionInPath = 0;

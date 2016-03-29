@@ -45,6 +45,7 @@ public class WallSpriteAssignator : MonoBehaviour {
 		return sprite;
 	}
 
+	//Returns the appropriate sprite in the case of a two ways wall
 	public Sprite GetAppropriateTwoWaysWall(Tile tile) {
 		Sprite sprite = null;
 		int positionOfFirstNeighborOfType = GetPositionOfWallNeighbor(tile, 1);
@@ -80,6 +81,7 @@ public class WallSpriteAssignator : MonoBehaviour {
 		return sprite;
 	}
 
+	//Returns the appropriate sprite in the case of a tree ways wall
 	public Sprite GetAppropriateThreeWaysWall(Tile tile) {
 		Sprite sprite = null;
 		int positionOfFirstNeighborOfType = GetPositionOfWallNeighbor(tile, 1);

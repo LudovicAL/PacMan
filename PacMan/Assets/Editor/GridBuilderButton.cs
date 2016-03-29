@@ -11,5 +11,8 @@ public class GridBuilderButton : Editor {
 		if(GUILayout.Button("Load first level")) {
 			myScript.GridBuilderButtonClic ();
 		}
+		if(GUILayout.Button("Clear level")) {
+			myScript.ClearLevel ();
+		}
 	}
 }

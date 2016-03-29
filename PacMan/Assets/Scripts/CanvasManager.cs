@@ -32,6 +32,7 @@ public class CanvasManager : MonoBehaviour {
 		scoreValueText.text = PersistentData.currentScore.ToString ();
 	}
 
+	//Shows a 3-2-1 countdown on the game canvas
 	IEnumerator ShowCountDown() {
 		gameCanvasText.text = "3";    
 		yield return new WaitForSeconds(1.5f);
@@ -43,14 +44,17 @@ public class CanvasManager : MonoBehaviour {
 		this.GetComponent<GameStatesManager> ().ChangeGameState (GameStatesManager.AvailableGameStates.WeakPacMan);
 	}
 
+	//Whenever the player clics the start button
 	public void OnStartButtonClic() {
 		this.GetComponent<GameStatesManager> ().ChangeGameState (GameStatesManager.AvailableGameStates.GettingReady);
 	}
 
+	//Whenever the player clics the quit button
 	public void OnQuitButtonClic() {
 		Application.Quit ();
 	}
 
+	//Whenever the player clics the game custom button
 	public void OnGameButtonClic() {
 		switch(gameObject.GetComponent<GameStatesManager>().GameState) {
 			case GameStatesManager.AvailableGameStates.StrongPacMan:
@@ -59,7 +63,8 @@ public class CanvasManager : MonoBehaviour {
 				gameObject.GetComponent<GameStatesManager> ().OnEscapeKeyPressed ();
 				break;
 			case GameStatesManager.AvailableGameStates.PacManLoses:
-				//Restart
+				gameObject.GetComponent<GridManager> ().LoadLevel (PersistentData.currentLevel);
+				this.GetComponent<GameStatesManager> ().ChangeGameState (GameStatesManager.AvailableGameStates.GettingReady);
 				break;
 			case GameStatesManager.AvailableGameStates.PacManWins:
 				if (PersistentData.currentLevel < gameObject.GetComponent<GridManager> ().MapFile.Length - 1) {
@@ -72,10 +77,6 @@ public class CanvasManager : MonoBehaviour {
 				//Nothing happens...
 				break;
 		}
-	}
-
-	public void OnPauseButtonClic() {
-		this.GetComponent<GameStatesManager> ().OnEscapeKeyPressed();
 	}
 
 	public void OnConsultingMenu() {
@@ -142,16 +143,19 @@ public class CanvasManager : MonoBehaviour {
 		}
 	}
 
+	//Sets the game panel custom button
 	public void SetGamePanelButton(string text, bool enabled) {
 		gamePanelButton.GetComponentInChildren<Text> ().text = text;
 		gamePanelButton.enabled = true;
 	}
 
+	//Sets the menu canvas panel
 	public void SetMenuCanvasPanels(bool menuPanelEnabled) {
 		menuCanvasMenuPanel.SetActive(menuPanelEnabled);
 		menuCanvasGamePanel.SetActive(!menuPanelEnabled);
 	}
 
+	//Sets the game canvas
 	public void SetGameCanvas(string text, bool enabled) {
 		gameCanvasText.text = text;
 		gameCanvasPanel.SetActive(enabled);
