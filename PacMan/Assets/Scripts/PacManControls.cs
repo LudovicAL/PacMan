@@ -72,25 +72,30 @@ public class PacManControls : MonoBehaviour {
 			case "Dot":
 				grid.GetComponent<AudioManager> ().PlaySound ("PacManEatDot");
 				Destroy (other.gameObject);
+				PersistentData.currentScore += 10;
 				break;
 			case "Boost":
 				grid.GetComponent<AudioManager> ().PlaySound ("PacManEatBoost");
 				Destroy (other.gameObject);
 				grid.GetComponent<GameStatesManager> ().ChangeGameState (GameStatesManager.AvailableGameStates.StrongPacMan);
+				PersistentData.currentScore += 100;
 				break;
 			case "Fruit":
 				grid.GetComponent<AudioManager> ().PlaySound ("PacManEatFruit");
 				Destroy (other.gameObject);
+				PersistentData.currentScore += 1000;
 				break;
 			case "Ghost":
 				if (other.GetComponent<Ghost>().IsAlive) {
 					if (grid.GetComponent<GameStatesManager>().GameState == GameStatesManager.AvailableGameStates.StrongPacMan) {
 						grid.GetComponent<AudioManager> ().PlaySound ("PacManEatGhost");
-						other.gameObject.GetComponent<Ghost> ().SetGhostState(Ghost.AvailableGhostStates.DeadIdle);
+						other.gameObject.GetComponent<Ghost> ().Die ();
+						PersistentData.currentScore += 10000;
 					} else if (grid.GetComponent<GameStatesManager>().GameState == GameStatesManager.AvailableGameStates.WeakPacMan) {
 						grid.GetComponent<AudioManager> ().PlaySound ("PacManDead");
 						SetPacManState (AvailablePacManStates.Dead);
 						grid.GetComponent<GameStatesManager> ().ChangeGameState (GameStatesManager.AvailableGameStates.PacManLoses);
+						PersistentData.currentScore -= 1000;
 					}
 				}
 				break;

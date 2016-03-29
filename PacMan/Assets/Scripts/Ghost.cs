@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public abstract class Ghost : MonoBehaviour {
 
@@ -19,13 +20,23 @@ public abstract class Ghost : MonoBehaviour {
 		DeadIdle,			//Dead and idle
 		DeadPaused			//Dead and paused
 	};
-
+		
+	protected float speed;
 	protected int direction;
 	protected AvailableGhostStates ghostState;
+	protected Tile spawningTile;
 	protected Tile currentTile;
+	private Tile destinationTile;
+	protected List<Tile> currentPath;
+	protected int progressionInPath;
 
 	// Use this for initialization
 	void Start () {
+		SetGhostSpeed ();
+		spawningTile = currentTile; //As currentTile has been initialized at Awake by the GridManager
+		destinationTile = null;
+		currentPath = null;
+		progressionInPath = 0;
 		SetGhostState (AvailableGhostStates.Paused);
 		if (grid != null) {
 			grid.GetComponent<GameStatesManager> ().ConsultingMenuGameState.AddListener(OnConsultingMenu);
@@ -39,11 +50,57 @@ public abstract class Ghost : MonoBehaviour {
 		} else {
 			Debug.Log("The script component is missing a reference.");
 		}
-		SubStart ();
 	}
 
 	void Update () {
-		SubUpdate ();
+		if (IsMoving) {
+			Move ();
+		} else if (ghostState != AvailableGhostStates.Paused && ghostState != AvailableGhostStates.DeadPaused) {
+			ChooseNextTile ();
+		}
+	}
+
+	//Moves the ghost to currentTile
+	public void Move() {
+		float step = speed * Time.deltaTime;
+		transform.position = Vector3.MoveTowards (transform.position, currentTile.GObject.transform.position, step);
+		if (transform.position == currentTile.GObject.transform.position) {
+			GoIdle ();
+			progressionInPath++;
+		}
+	}
+
+	//Chooses the next tile to go and prepares the path
+	public void ChooseNextTile() {
+		if (currentTile == destinationTile) {
+			destinationTile = null;
+			currentPath = null;
+			if (!IsAlive) {
+				SetGhostSpeed();
+				SetGhostState (AvailableGhostStates.ChasingIdle);
+				return;
+			}
+		}
+		if (currentPath == null) {
+			currentPath = AStarPathfinding.GeneratePath(currentTile, GetDestinationTile (), grid);
+			progressionInPath = 0;
+			if (currentPath != null) {
+				destinationTile = currentPath.Last();
+			}
+		}
+		if (currentPath != null) {
+			GoMoving (currentTile.GetNeighborTileDirection(currentPath.ElementAt(progressionInPath)));
+			if (progressionInPath < currentPath.Count) {
+				currentTile = currentPath.ElementAt(progressionInPath);
+			}
+		}
+	}
+
+	public void Die() {
+		SetGhostState (AvailableGhostStates.DeadIdle);
+		progressionInPath = 0;
+		currentPath = null;
+		destinationTile = null;
 	}
 
 	//Sets the ghost's state
@@ -178,21 +235,9 @@ public abstract class Ghost : MonoBehaviour {
 		}
 	}
 
-
-	//Returns a list of all the neighbor tiles that are not walls
-	protected List<TileDirectionPair> GetNonWallNeighborTilesDirectionPair() {
-		List<TileDirectionPair> nonWallNeighborTilesDirectionPair = new List<TileDirectionPair> ();
-		for (int i = 0; i < 4; i++) {
-			if (currentTile.NeighborTiles[i] != null && currentTile.NeighborTiles[i].TileType != Tile.AvailableTileTypes.Wall) {
-				nonWallNeighborTilesDirectionPair.Add (new TileDirectionPair(i, currentTile.NeighborTiles[i]));
-			}
-		}
-		return nonWallNeighborTilesDirectionPair;
-	}
-
-	public abstract void SubStart();
-	public abstract void SubUpdate();
 	public abstract void SetGhostColor(bool afraid);
+	public abstract void SetGhostSpeed();
+	public abstract Tile GetDestinationTile();
 
 	//Proterties
 	public Tile CurrentTile {

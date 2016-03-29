@@ -9,20 +9,22 @@ public class GridManager : MonoBehaviour {
 	public GameObject dotPrefab;
 	public GameObject boostPrefab;
 	public GameObject ghostsContainer;
-	public GameObject ghostRandomAiPrefab;
-	public GameObject ghostSimpleAiPrefab;
-	public GameObject ghostAStarAiPrefab;
+	public GameObject ghostDumbAStarAiPrefab;
+	public GameObject ghostWiseAStarAiPrefab;
 	public GameObject pacManContainer;
 	public GameObject pacManPrefab;
-	public TextAsset mapFile;
+	public TextAsset[] mapFile;
 
 	private List<Tile> tileList;
+	private List<Tile> walkableTileList;
 	private List<GameObject> ghostList;
+	private GameObject pacMan;
 
 	// Use this for initialization
 	void Awake () {
 		//Retrieving grid data
 		tileList = new List<Tile> ();
+		walkableTileList = new List<Tile> ();
 		foreach(Transform child in this.transform) {
 			int coordX = (int)child.position.x;
 			int coordY = (int)child.position.y;
@@ -40,14 +42,11 @@ public class GridManager : MonoBehaviour {
 				case "PacManStartingPosition":
 					tileType = Tile.AvailableTileTypes.PacManStartingPosition;
 					break;
-				case "GhostStartingPositionRandomAi":
-					tileType = Tile.AvailableTileTypes.GhostStartingPositionRandomAi;
+				case "GhostStartingPositionDumbAStarAi":
+					tileType = Tile.AvailableTileTypes.GhostStartingPositionDumbAStarAi;
 					break;
-				case "GhostStartingPositionSimpleAi":
-					tileType = Tile.AvailableTileTypes.GhostStartingPositionSimpleAi;
-					break;
-				case "GhostStartingPositionAStarAi":
-					tileType = Tile.AvailableTileTypes.GhostStartingPositionAStarAi;
+				case "GhostStartingPositionWiseAStarAi":
+					tileType = Tile.AvailableTileTypes.GhostStartingPositionWiseAStarAi;
 					break;
 				default:
 					tileType = Tile.AvailableTileTypes.Wall;
@@ -55,9 +54,14 @@ public class GridManager : MonoBehaviour {
 			}
 			GameObject gObject = child.gameObject;
 			tileList.Add (new Tile (coordX, coordY, tileType, gObject));
+			if (tileType != Tile.AvailableTileTypes.Wall) {
+				walkableTileList.Add (tileList.Last ());
+			}
 		}
+		//Retrieving neighbors data
 		foreach(Tile tile in tileList) {
 			FindNeighbors(tile);
+			FindNonWallNeighbors(tile);
 		}
 		//Retrieving ghost data
 		ghostList = new List<GameObject> ();
@@ -67,6 +71,7 @@ public class GridManager : MonoBehaviour {
 		}
 		//Retrieving pacMan data
 		foreach(Transform child in pacManContainer.transform) {
+			pacMan = child.gameObject;
 			child.GetComponent<PacManControls> ().CurrentTile = FindTileByCoordinates ((int)child.transform.position.x, (int)child.transform.position.y);
 		}
 		PositionMainCamera ();
@@ -95,8 +100,8 @@ public class GridManager : MonoBehaviour {
 		ClearTransform (this.transform);
 		ClearTransform (ghostsContainer.transform);
 		ClearTransform (pacManContainer.transform);
-		if (tilePrefab != null && mapFile != null) {
-			tileList = MapFileReader.Read (mapFile);
+		if (tilePrefab != null && mapFile[PersistentData.currentLevel] != null) {
+			tileList = MapFileReader.Read (mapFile[PersistentData.currentLevel]);
 			foreach(Tile tile in tileList) {
 				BuildTile (tile);
 			}
@@ -139,14 +144,11 @@ public class GridManager : MonoBehaviour {
 			case Tile.AvailableTileTypes.PacManStartingPosition:
 				tileSprite.tag = "PacManStartingPosition";
 				break;
-			case Tile.AvailableTileTypes.GhostStartingPositionRandomAi:
-				tileSprite.tag = "GhostStartingPositionRandomAi";
+			case Tile.AvailableTileTypes.GhostStartingPositionDumbAStarAi:
+				tileSprite.tag = "GhostStartingPositionDumbAStarAi";
 				break;
-			case Tile.AvailableTileTypes.GhostStartingPositionSimpleAi:
-				tileSprite.tag = "GhostStartingPositionSimpleAi";
-				break;
-			case Tile.AvailableTileTypes.GhostStartingPositionAStarAi:
-				tileSprite.tag = "GhostStartingPositionAStarAi";
+			case Tile.AvailableTileTypes.GhostStartingPositionWiseAStarAi:
+				tileSprite.tag = "GhostStartingPositionWiseAStarAi";
 				break;
 		}
 	}
@@ -175,6 +177,15 @@ public class GridManager : MonoBehaviour {
 		tile.NeighborTiles = neighborTiles;
 	}
 
+	//Finds a tile non-wall neighbors and store the data in a list that is copied to the tile reference object
+	public void FindNonWallNeighbors(Tile tile) {
+		for (int i = 0; i < 4; i++) {
+			if (tile.NeighborTiles[i] != null && tile.NeighborTiles[i].TileType != Tile.AvailableTileTypes.Wall) {
+				tile.NonWallNeighborTilesDirectionPair.Add (new TileDirectionPair(i, tile.NeighborTiles[i]));
+			}
+		}
+	}
+
 	//Assigns the best suited sprite to a tile
 	public void AssignWallsSprite(Tile tile) {
 		if (tile.TileType == Tile.AvailableTileTypes.Wall) {
@@ -197,20 +208,15 @@ public class GridManager : MonoBehaviour {
 	//Spawns the ghosts
 	private void SpawnGhost(Tile tile) {
 		switch (tile.TileType) {
-			case Tile.AvailableTileTypes.GhostStartingPositionRandomAi:
-				GameObject ghostRandomAi = (GameObject)Instantiate (ghostRandomAiPrefab, new Vector3 (tile.CoordX, tile.CoordY, 0.0f), Quaternion.identity);
-				ghostRandomAi.transform.SetParent (ghostsContainer.transform);
-				ghostRandomAi.GetComponent<GhostRandomAi> ().grid = this.gameObject;
+			case Tile.AvailableTileTypes.GhostStartingPositionDumbAStarAi:
+				GameObject ghostDumbAStarAi = (GameObject)Instantiate (ghostDumbAStarAiPrefab, new Vector3 (tile.CoordX, tile.CoordY, 0.0f), Quaternion.identity);
+				ghostDumbAStarAi.transform.SetParent(ghostsContainer.transform);
+				ghostDumbAStarAi.GetComponent<GhostDumbAStarAi> ().grid = this.gameObject;
 				break;
-			case Tile.AvailableTileTypes.GhostStartingPositionSimpleAi:
-				GameObject ghostSimpleAi = (GameObject)Instantiate (ghostSimpleAiPrefab, new Vector3 (tile.CoordX, tile.CoordY, 0.0f), Quaternion.identity);
-				ghostSimpleAi.transform.SetParent(ghostsContainer.transform);
-				ghostSimpleAi.GetComponent<GhostSimpleAi> ().grid = this.gameObject;
-				break;
-			case Tile.AvailableTileTypes.GhostStartingPositionAStarAi:
-				GameObject ghostAStarAi = (GameObject)Instantiate (ghostAStarAiPrefab, new Vector3 (tile.CoordX, tile.CoordY, 0.0f), Quaternion.identity);
-				ghostAStarAi.transform.SetParent(ghostsContainer.transform);
-				ghostAStarAi.GetComponent<GhostAStarAi> ().grid = this.gameObject;
+			case Tile.AvailableTileTypes.GhostStartingPositionWiseAStarAi:
+				GameObject ghostWiseAStarAi = (GameObject)Instantiate (ghostWiseAStarAiPrefab, new Vector3 (tile.CoordX, tile.CoordY, 0.0f), Quaternion.identity);
+				ghostWiseAStarAi.transform.SetParent(ghostsContainer.transform);
+				ghostWiseAStarAi.GetComponent<GhostWiseAStarAi> ().grid = this.gameObject;
 				break;
 		}
 	}
@@ -250,6 +256,18 @@ public class GridManager : MonoBehaviour {
 	public List<Tile> TileList {
 		get {
 			return tileList;
+		}
+	}
+
+	public List<Tile> WalkableTileList {
+		get {
+			return walkableTileList;
+		}
+	}
+
+	public GameObject PacMan {
+		get {
+			return pacMan;
 		}
 	}
 }
