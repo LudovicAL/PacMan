@@ -8,7 +8,8 @@ public class GhostWiseAStarAi : Ghost {
 	public float minSpeed = 4.0f;
 	public float maxSpeed = 5.0f;
 
-	private Color[] availableColors = new Color[Color.green, Color.gray, Color.magenta];
+	private Color[] chasingColors = new Color[] {Color.green, Color.magenta};
+	private Color[] afraidColors = new Color[] {Color.cyan, Color.gray};
 
 	public override Tile GetDestinationTile() {
 		if (IsAlive) {
@@ -20,9 +21,9 @@ public class GhostWiseAStarAi : Ghost {
 
 	public override void SetGhostColor(bool afraid) {
 		if (afraid) {
-			gameObject.GetComponent<SpriteRenderer> ().color = Color.cyan;
+			gameObject.GetComponent<SpriteRenderer> ().color = afraidColors[Random.Range(0, afraidColors.Length)];
 		} else {
-			gameObject.GetComponent<SpriteRenderer> ().color = availableColors[Random.Range(0, availableColors.Length)];
+			gameObject.GetComponent<SpriteRenderer> ().color = chasingColors[Random.Range(0, chasingColors.Length)];
 		}
 	}
 
