@@ -1,0 +1,369 @@
+fileFormatVersion: 2
+guid: 04bd62826dea1b348b669ee60de4350a
+timeCreated: 1459006968
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: pacman_left_big
+    21300002: pacman_up_big
+    21300004: pacman_left_small
+    21300006: pacman_up_small
+    21300008: pacman_right_big
+    21300010: pacman_down_big
+    21300012: pacman_right_small
+    21300014: pacman_down_small
+    21300016: pacman_left_big_b
+    21300018: pacman_up_big_b
+    21300020: pacman_left_small_b
+    21300022: pacman_up_small_b
+    21300024: pacman_right_big_b
+    21300026: pacman_down_big_b
+    21300028: pacman_right_small_b
+    21300030: pacman_down_small_b
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: pacman_left_big
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 102
+        width: 88
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 44}
+        - {x: -30, y: -38}
+        - {x: -23, y: -44}
+        - {x: 42, y: -44}
+        - {x: 44, y: -38}
+        - {x: 44, y: 40}
+        - {x: 40, y: 44}
+    - name: pacman_up_big
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 102
+        width: 88
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 30}
+        - {x: -44, y: -32}
+        - {x: -30, y: -44}
+        - {x: 26, y: -44}
+        - {x: 44, y: -30}
+        - {x: 44, y: 26}
+        - {x: 43, y: 30}
+    - name: pacman_left_small
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 102
+        width: 88
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 44}
+        - {x: -44, y: 27}
+        - {x: -44, y: -35}
+        - {x: -42, y: -44}
+        - {x: 35, y: -44}
+        - {x: 44, y: -39}
+        - {x: 44, y: 30}
+        - {x: 39, y: 44}
+    - name: pacman_up_small
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 102
+        width: 88
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -21, y: 44}
+        - {x: -44, y: 21}
+        - {x: -44, y: -30}
+        - {x: -35, y: -44}
+        - {x: 44, y: -44}
+        - {x: 44, y: 38}
+        - {x: 29, y: 44}
+    - name: pacman_right_big
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 102
+        width: 88
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 44}
+        - {x: -44, y: 27}
+        - {x: -44, y: -25}
+        - {x: -28, y: -44}
+        - {x: 23, y: -44}
+        - {x: 30, y: -39}
+        - {x: 30, y: 44}
+    - name: pacman_down_big
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 102
+        width: 88
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 44, y: -25}
+        - {x: 44, y: 34}
+        - {x: 30, y: 44}
+        - {x: -27, y: 44}
+        - {x: -44, y: 27}
+        - {x: -44, y: -22}
+        - {x: -36, y: -30}
+        - {x: -28, y: -30}
+        - {x: -18, y: -23}
+        - {x: 6, y: -30}
+        - {x: 43, y: -30}
+    - name: pacman_right_small
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 102
+        width: 88
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -38, y: 44}
+        - {x: -44, y: 41}
+        - {x: -44, y: -30}
+        - {x: -39, y: -44}
+        - {x: 27, y: -44}
+        - {x: 44, y: -35}
+        - {x: 44, y: 44}
+    - name: pacman_down_small
+      rect:
+        serializedVersion: 2
+        x: 676
+        y: 102
+        width: 88
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -41, y: 44}
+        - {x: -44, y: 36}
+        - {x: -44, y: -44}
+        - {x: 44, y: -44}
+        - {x: 44, y: 37}
+        - {x: 32, y: 44}
+    - name: pacman_left_big_b
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 6
+        width: 88
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 44}
+        - {x: -30, y: -38}
+        - {x: -23, y: -44}
+        - {x: 42, y: -44}
+        - {x: 44, y: -38}
+        - {x: 44, y: 40}
+        - {x: 40, y: 44}
+    - name: pacman_up_big_b
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 6
+        width: 88
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 30}
+        - {x: -44, y: -32}
+        - {x: -30, y: -44}
+        - {x: 26, y: -44}
+        - {x: 44, y: -30}
+        - {x: 44, y: 26}
+        - {x: 43, y: 30}
+    - name: pacman_left_small_b
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 6
+        width: 88
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 44}
+        - {x: -44, y: 27}
+        - {x: -44, y: -35}
+        - {x: -42, y: -44}
+        - {x: 35, y: -44}
+        - {x: 44, y: -39}
+        - {x: 44, y: 30}
+        - {x: 39, y: 44}
+    - name: pacman_up_small_b
+      rect:
+        serializedVersion: 2
+        x: 292
+        y: 6
+        width: 88
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 44}
+        - {x: -44, y: -31}
+        - {x: -39, y: -44}
+        - {x: 25, y: -44}
+        - {x: 44, y: -28}
+        - {x: 44, y: 28}
+        - {x: 37, y: 44}
+    - name: pacman_right_big_b
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 6
+        width: 88
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 44}
+        - {x: -44, y: 27}
+        - {x: -44, y: -25}
+        - {x: -28, y: -44}
+        - {x: 23, y: -44}
+        - {x: 30, y: -39}
+        - {x: 30, y: 44}
+    - name: pacman_down_big_b
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 6
+        width: 88
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 44, y: -25}
+        - {x: 44, y: 34}
+        - {x: 30, y: 44}
+        - {x: -27, y: 44}
+        - {x: -44, y: 27}
+        - {x: -44, y: -22}
+        - {x: -36, y: -30}
+        - {x: -28, y: -30}
+        - {x: -18, y: -23}
+        - {x: 6, y: -30}
+        - {x: 43, y: -30}
+    - name: pacman_right_small_b
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 6
+        width: 88
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -38, y: 44}
+        - {x: -44, y: 41}
+        - {x: -44, y: -30}
+        - {x: -39, y: -44}
+        - {x: 27, y: -44}
+        - {x: 44, y: -35}
+        - {x: 44, y: 44}
+    - name: pacman_down_small_b
+      rect:
+        serializedVersion: 2
+        x: 676
+        y: 6
+        width: 88
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -41, y: 44}
+        - {x: -44, y: 36}
+        - {x: -44, y: -44}
+        - {x: 44, y: -44}
+        - {x: 44, y: 37}
+        - {x: 32, y: 44}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

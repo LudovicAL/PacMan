@@ -1,0 +1,233 @@
+fileFormatVersion: 2
+guid: ed67a91f15188644387d7e387fdfd469
+timeCreated: 1459087830
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: ghost_dead_right
+    21300002: ghost_dead_right_b
+    21300004: ghost_dead_down
+    21300006: ghost_dead_down_b
+    21300008: ghost_dead_left
+    21300010: ghost_dead_left_b
+    21300012: ghost_dead_up
+    21300014: ghost_dead_up_b
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: ghost_dead_right
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 27
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -26, y: 14}
+        - {x: -26, y: -12}
+        - {x: -24, y: -14}
+        - {x: 2, y: -14}
+        - {x: 2, y: 14}
+      - - {x: 6, y: 12}
+        - {x: 6, y: -12}
+        - {x: 8, y: -14}
+        - {x: 32, y: -14}
+        - {x: 32, y: 14}
+        - {x: 8, y: 14}
+    - name: ghost_dead_right_b
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 27
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -26, y: 14}
+        - {x: -26, y: -12}
+        - {x: -24, y: -14}
+        - {x: 2, y: -14}
+        - {x: 2, y: 14}
+      - - {x: 6, y: 12}
+        - {x: 6, y: -12}
+        - {x: 8, y: -14}
+        - {x: 32, y: -14}
+        - {x: 32, y: 14}
+        - {x: 8, y: 14}
+    - name: ghost_dead_down
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 23
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 10}
+        - {x: -30, y: -18}
+        - {x: -2, y: -18}
+        - {x: -2, y: 10}
+      - - {x: 2, y: 10}
+        - {x: 2, y: -18}
+        - {x: 30, y: -18}
+        - {x: 30, y: 10}
+    - name: ghost_dead_down_b
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 23
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 10}
+        - {x: -30, y: -18}
+        - {x: -2, y: -18}
+        - {x: -2, y: 10}
+      - - {x: 2, y: 10}
+        - {x: 2, y: -18}
+        - {x: 30, y: -18}
+        - {x: 30, y: 10}
+    - name: ghost_dead_left
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 27
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 14}
+        - {x: -32, y: -14}
+        - {x: -8, y: -14}
+        - {x: -6, y: -12}
+        - {x: -6, y: 12}
+        - {x: -8, y: 14}
+      - - {x: -2, y: 14}
+        - {x: -2, y: -12}
+        - {x: 0, y: -14}
+        - {x: 26, y: -14}
+        - {x: 26, y: 14}
+    - name: ghost_dead_left_b
+      rect:
+        serializedVersion: 2
+        x: 487
+        y: 27
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 14}
+        - {x: -32, y: -14}
+        - {x: -8, y: -14}
+        - {x: -6, y: -12}
+        - {x: -6, y: 12}
+        - {x: -8, y: 14}
+      - - {x: -2, y: 14}
+        - {x: -2, y: -12}
+        - {x: 0, y: -14}
+        - {x: 26, y: -14}
+        - {x: 26, y: 14}
+    - name: ghost_dead_up
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 30
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 19}
+        - {x: -30, y: -7}
+        - {x: -28, y: -9}
+        - {x: -4, y: -9}
+        - {x: -2, y: -7}
+        - {x: -2, y: 19}
+      - - {x: 3, y: -9}
+        - {x: 30, y: -9}
+        - {x: 30, y: 19}
+        - {x: 3, y: 19}
+    - name: ghost_dead_up_b
+      rect:
+        serializedVersion: 2
+        x: 683
+        y: 30
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 19}
+        - {x: -30, y: -7}
+        - {x: -28, y: -9}
+        - {x: -4, y: -9}
+        - {x: -2, y: -7}
+        - {x: -2, y: 19}
+      - - {x: 3, y: -9}
+        - {x: 30, y: -9}
+        - {x: 30, y: 19}
+        - {x: 3, y: 19}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
