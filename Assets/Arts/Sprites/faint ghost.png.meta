@@ -1,25 +1,42 @@
 fileFormatVersion: 2
 guid: ed67a91f15188644387d7e387fdfd469
-timeCreated: 1459087830
-licenseType: Free
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: ghost_dead_right
-    21300002: ghost_dead_right_b
-    21300004: ghost_dead_down
-    21300006: ghost_dead_down_b
-    21300008: ghost_dead_left
-    21300010: ghost_dead_left_b
-    21300012: ghost_dead_up
-    21300014: ghost_dead_up_b
-  serializedVersion: 2
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: ghost_dead_right
+  - first:
+      213: 21300002
+    second: ghost_dead_right_b
+  - first:
+      213: 21300004
+    second: ghost_dead_down
+  - first:
+      213: 21300006
+    second: ghost_dead_down_b
+  - first:
+      213: 21300008
+    second: ghost_dead_left
+  - first:
+      213: 21300010
+    second: ghost_dead_left_b
+  - first:
+      213: 21300012
+    second: ghost_dead_up
+  - first:
+      213: 21300014
+    second: ghost_dead_up_b
+  externalObjects: {}
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
+    sRGBTexture: 1
     linearTexture: 0
-    correctGamma: 0
     fadeOut: 0
     borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
@@ -28,37 +45,66 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
-  generateCubemap: 0
+  generateCubemap: 6
   cubemapConvolution: 0
-  cubemapConvolutionSteps: 7
-  cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -1
   maxTextureSize: 2048
   textureSettings:
+    serializedVersion: 2
     filterMode: 0
     aniso: 16
-    mipBias: -1
-    wrapMode: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
-  rGBM: 0
   compressionQuality: 50
-  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
   alphaIsTransparency: 1
+  spriteTessellationDetail: -1
   textureType: 8
-  buildTargetSettings: []
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
+    serializedVersion: 2
     sprites:
-    - name: ghost_dead_right
+    - serializedVersion: 2
+      name: ghost_dead_right
       rect:
         serializedVersion: 2
         x: 15
@@ -68,19 +114,18 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -26, y: 14}
-        - {x: -26, y: -12}
-        - {x: -24, y: -14}
-        - {x: 2, y: -14}
-        - {x: 2, y: 14}
-      - - {x: 6, y: 12}
-        - {x: 6, y: -12}
-        - {x: 8, y: -14}
-        - {x: 32, y: -14}
-        - {x: 32, y: 14}
-        - {x: 8, y: 14}
-    - name: ghost_dead_right_b
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02305410000000000800000000000000
+      internalID: 21300000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ghost_dead_right_b
       rect:
         serializedVersion: 2
         x: 111
@@ -90,19 +135,18 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -26, y: 14}
-        - {x: -26, y: -12}
-        - {x: -24, y: -14}
-        - {x: 2, y: -14}
-        - {x: 2, y: 14}
-      - - {x: 6, y: 12}
-        - {x: 6, y: -12}
-        - {x: 8, y: -14}
-        - {x: 32, y: -14}
-        - {x: 32, y: 14}
-        - {x: 8, y: 14}
-    - name: ghost_dead_down
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22305410000000000800000000000000
+      internalID: 21300002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ghost_dead_down
       rect:
         serializedVersion: 2
         x: 203
@@ -112,16 +156,18 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -30, y: 10}
-        - {x: -30, y: -18}
-        - {x: -2, y: -18}
-        - {x: -2, y: 10}
-      - - {x: 2, y: 10}
-        - {x: 2, y: -18}
-        - {x: 30, y: -18}
-        - {x: 30, y: 10}
-    - name: ghost_dead_down_b
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42305410000000000800000000000000
+      internalID: 21300004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ghost_dead_down_b
       rect:
         serializedVersion: 2
         x: 299
@@ -131,16 +177,18 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -30, y: 10}
-        - {x: -30, y: -18}
-        - {x: -2, y: -18}
-        - {x: -2, y: 10}
-      - - {x: 2, y: 10}
-        - {x: 2, y: -18}
-        - {x: 30, y: -18}
-        - {x: 30, y: 10}
-    - name: ghost_dead_left
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62305410000000000800000000000000
+      internalID: 21300006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ghost_dead_left
       rect:
         serializedVersion: 2
         x: 391
@@ -150,19 +198,18 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -32, y: 14}
-        - {x: -32, y: -14}
-        - {x: -8, y: -14}
-        - {x: -6, y: -12}
-        - {x: -6, y: 12}
-        - {x: -8, y: 14}
-      - - {x: -2, y: 14}
-        - {x: -2, y: -12}
-        - {x: 0, y: -14}
-        - {x: 26, y: -14}
-        - {x: 26, y: 14}
-    - name: ghost_dead_left_b
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82305410000000000800000000000000
+      internalID: 21300008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ghost_dead_left_b
       rect:
         serializedVersion: 2
         x: 487
@@ -172,19 +219,18 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -32, y: 14}
-        - {x: -32, y: -14}
-        - {x: -8, y: -14}
-        - {x: -6, y: -12}
-        - {x: -6, y: 12}
-        - {x: -8, y: 14}
-      - - {x: -2, y: 14}
-        - {x: -2, y: -12}
-        - {x: 0, y: -14}
-        - {x: 26, y: -14}
-        - {x: 26, y: 14}
-    - name: ghost_dead_up
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2305410000000000800000000000000
+      internalID: 21300010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ghost_dead_up
       rect:
         serializedVersion: 2
         x: 587
@@ -194,18 +240,18 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -30, y: 19}
-        - {x: -30, y: -7}
-        - {x: -28, y: -9}
-        - {x: -4, y: -9}
-        - {x: -2, y: -7}
-        - {x: -2, y: 19}
-      - - {x: 3, y: -9}
-        - {x: 30, y: -9}
-        - {x: 30, y: 19}
-        - {x: 3, y: 19}
-    - name: ghost_dead_up_b
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2305410000000000800000000000000
+      internalID: 21300012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ghost_dead_up_b
       rect:
         serializedVersion: 2
         x: 683
@@ -215,19 +261,38 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -30, y: 19}
-        - {x: -30, y: -7}
-        - {x: -28, y: -9}
-        - {x: -4, y: -9}
-        - {x: -2, y: -7}
-        - {x: -2, y: 19}
-      - - {x: 3, y: -9}
-        - {x: 30, y: -9}
-        - {x: 30, y: 19}
-        - {x: 3, y: 19}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2305410000000000800000000000000
+      internalID: 21300014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      ghost_dead_left: 21300008
+      ghost_dead_up: 21300012
+      ghost_dead_down: 21300004
+      ghost_dead_right_b: 21300002
+      ghost_dead_right: 21300000
+      ghost_dead_down_b: 21300006
+      ghost_dead_left_b: 21300010
+      ghost_dead_up_b: 21300014
   spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
